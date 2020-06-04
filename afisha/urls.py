@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.http import HttpResponse
 from django.template import loader
 from afisha import settings
@@ -20,6 +20,7 @@ def render_fp(request):
         coordinates = [place.coordinates_lng, place.coordinates_lat]
         title = place.title
         place_id = slugify(place.title)
+
         feature = {
             "type": "Feature",
             "geometry": {
@@ -45,6 +46,7 @@ def render_fp(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('place/', include('places.urls', namespace='places')),
     path('', render_fp),
 ]
 if settings.DEBUG:
