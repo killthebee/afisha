@@ -1,5 +1,5 @@
 from django.db import models
-from afisha import settings
+from django.utils.safestring import mark_safe
 
 
 class Place(models.Model):
@@ -23,6 +23,9 @@ class PlaceImage(models.Model):
 
     def __str__(self):
         return f'Изображение {self.id}.{self.place.title}'
+
+    def preview_img(self):
+        return mark_safe(f'<img src="{self.image.url}" height="200"')
 
     class Meta:
         verbose_name = 'Изображение места'
