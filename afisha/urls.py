@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse
 from django.http import HttpResponse
 from django.template import loader
 from afisha import settings
@@ -16,7 +16,7 @@ def render_fp(request):
     places = Place.objects.all()
 
     features = []
-    for place in places:
+    for index, place in enumerate(places, 1):
         coordinates = [place.coordinates_lng, place.coordinates_lat]
         title = place.title
         place_id = slugify(place.title)
@@ -30,7 +30,7 @@ def render_fp(request):
             "properties": {
                 "title": title,
                 "placeId": place_id,
-                "detailsUrl": "{% static 'afisha/places/moscow_legends.json' %}",
+                "detailsUrl": reverse('places:place_detail', args=[index]),
             },
         }
         features.append(feature)

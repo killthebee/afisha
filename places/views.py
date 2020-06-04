@@ -7,7 +7,7 @@ from places.models import Place
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
     title = place.title
-    imgs = [image.get_absolute_image_url for image in place.images.all()]
+    imgs = [image.image.url for image in place.images.all()]
     short_description = place.description_short
     long_description = place.description_long
     coords = {"lat": place.coordinates_lat, "lng": place.coordinates_lng}

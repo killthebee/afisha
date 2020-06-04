@@ -24,10 +24,6 @@ class PlaceImage(models.Model):
     def __str__(self):
         return f'Изображение {self.id}.{self.place.title}'
 
-    @property
-    def get_absolute_image_url(self):
-        return "{0}{1}".format(settings.MEDIA_URL, self.image.url)
-
     class Meta:
         verbose_name = 'Изображение места'
         verbose_name_plural = 'Изображения места'

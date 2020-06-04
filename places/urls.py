@@ -5,5 +5,5 @@ from places import views
 
 app_name = 'places'
 urlpatterns = [
-    path('<int:pk>/', views.place_detail, name='page_detail'),
+    path('<int:pk>/', views.place_detail, name='place_detail'),
 ]
