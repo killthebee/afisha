@@ -47,6 +47,7 @@ def render_fp(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('place/', include('places.urls', namespace='places')),
+    path(r'^tinymce/', include('tinymce.urls')),
     path('', render_fp),
 ]
 if settings.DEBUG:

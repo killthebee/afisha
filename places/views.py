@@ -9,7 +9,7 @@ def place_detail(request, pk):
     title = place.title
     imgs = [image.image.url for image in place.images.all()]
     short_description = place.description_short
-    long_description = place.description_long
+    long_description = place.text
     coords = {"lat": place.coordinates_lat, "lng": place.coordinates_lng}
     details = {
         "title": title,

@@ -1,13 +1,17 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from tinymce.models import HTMLField
+
+
+
 
 
 class Place(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
     description_short = models.TextField(verbose_name='Короткое описание')
-    description_long = models.TextField(verbose_name='Длинное описание')
     coordinates_lat = models.FloatField(verbose_name='Широта')
     coordinates_lng = models.FloatField(verbose_name='Долгота')
+    text = HTMLField(default='Впиши вёрстку места, пожалуйста', verbose_name='Длинное описание')
 
     def __str__(self):
         return self.title
