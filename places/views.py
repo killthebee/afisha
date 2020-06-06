@@ -12,7 +12,7 @@ def render_fp(request):
     places = Place.objects.all()
 
     features = []
-    for index, place in enumerate(places, 1):
+    for place in places:
         coordinates = [place.coordinates_lng, place.coordinates_lat]
         title = place.title
         place_id = slugify(place.title)
@@ -26,7 +26,7 @@ def render_fp(request):
             "properties": {
                 "title": title,
                 "placeId": place_id,
-                "detailsUrl": reverse('places:place_detail', args=[index]),
+                "detailsUrl": reverse('places:place_detail', args=[place.pk]),
             },
         }
         features.append(feature)
