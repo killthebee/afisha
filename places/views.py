@@ -1,21 +1,24 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from places.models import Place
-from places.utilities import slugify
 
 
-def render_fp(request):
+def show_page(request):
+    print(request)
     template = loader.get_template('index.html')
     places = Place.objects.all()
+    print(places)
 
     features = []
+    print(features)
     for place in places:
-        coordinates = [place.coordinates_lng, place.coordinates_lat]
-        title = place.title
-        place_id = slugify(place.title)
+        coordinates = [place.longitude, place.latitude]
+        short_title = place.title.split('«')[-1][:-1]
+        place_id = place.pk
+        print(place.images.all())
 
         feature = {
             "type": "Feature",
@@ -24,29 +27,30 @@ def render_fp(request):
                 "coordinates": coordinates,
             },
             "properties": {
-                "title": title,
+                "title": short_title,
                 "placeId": place_id,
-                "detailsUrl": reverse('places:place_detail', args=[place.pk]),
+                "detailsUrl": reverse('place', kwargs={'pk':place_id})
             },
         }
         features.append(feature)
+        print(features)
 
-    geo_script = {
+    places_geojson = {
         "type": "FeatureCollection",
-        "features": features,
+        "features": features
     }
-    context = {'geo_script': geo_script}
+    context = {"places_geojson": places_geojson}
     render_page = template.render(context, request)
     return HttpResponse(render_page)
 
 
-def place_detail(request, pk):
+def fetch_place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
     title = place.title
     imgs = [image.image.url for image in place.images.all()]
-    short_description = place.description_short
-    long_description = place.text
-    coords = {"lat": place.coordinates_lat, "lng": place.coordinates_lng}
+    short_description = place.short_description
+    long_description = place.long_description
+    coords = {"lat": place.latitude, "lng": place.longitude}
     details = {
         "title": title,
         "imgs": imgs,
