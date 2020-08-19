@@ -46,16 +46,13 @@ def show_page(request):
 
 def fetch_place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
-    title = place.title
     imgs = [image.image.url for image in place.images.all()]
-    short_description = place.short_description
-    long_description = place.long_description
     coords = {"lat": place.latitude, "lng": place.longitude}
     details = {
-        "title": title,
+        "title": place.title,
         "imgs": imgs,
-        "description_short": short_description,
-        "description_long": long_description,
+        "description_short": place.short_description,
+        "description_long": place.long_description,
         "coordinates": coords,
     }
     return JsonResponse(details, safe=False, json_dumps_params={'ensure_ascii': False})
