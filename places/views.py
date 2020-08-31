@@ -7,18 +7,14 @@ from places.models import Place
 
 
 def show_page(request):
-    print(request)
     template = loader.get_template('index.html')
     places = Place.objects.all()
-    print(places)
 
     features = []
-    print(features)
     for place in places:
         coordinates = [place.longitude, place.latitude]
         short_title = place.title.split('«')[-1][:-1]
         place_id = place.pk
-        print(place.images.all())
 
         feature = {
             "type": "Feature",
@@ -33,7 +29,6 @@ def show_page(request):
             },
         }
         features.append(feature)
-        print(features)
 
     places_geojson = {
         "type": "FeatureCollection",
