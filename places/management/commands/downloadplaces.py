@@ -26,7 +26,8 @@ def create_place(url):
         latitude=json_response['coordinates']['lat'],
         longitude=json_response['coordinates']['lng'],
     )
-    add_images(new_place[0], json_response['imgs'])
+    new_place_object = new_place[0]
+    add_images(new_place_object, json_response['imgs'])
 
 
 def add_images(new_place, img_urls):

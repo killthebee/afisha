@@ -1,13 +1,11 @@
 from django.http import HttpResponse, JsonResponse
-from django.template import loader
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from places.models import Place
 
 
 def show_page(request):
-    template = loader.get_template('index.html')
     places = Place.objects.all()
 
     features = []
@@ -35,8 +33,7 @@ def show_page(request):
         "features": features
     }
     context = {"places_geojson": places_geojson}
-    render_page = template.render(context, request)
-    return HttpResponse(render_page)
+    return render(request, 'index.html', context)
 
 
 def fetch_place_detail(request, pk):
