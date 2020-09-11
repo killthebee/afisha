@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.safestring import mark_safe
 from tinymce.models import HTMLField
+import traceback
 
 
 class Place(models.Model):
@@ -29,7 +30,11 @@ class PlaceImage(models.Model):
         return f'Изображение {self.id}.{self.place.title}'
 
     def preview_image(self):
-        return mark_safe(f'<img src="{self.image.url}" height="200px">')
+        try:
+            image = mark_safe(f'<img src="{self.image.url}" height="200px">')
+            return image
+        except ValueError:
+            return 'Not loaded yet'
 
     class Meta:
         verbose_name = 'Изображение места'
