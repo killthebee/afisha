@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.safestring import mark_safe
 from tinymce.models import HTMLField
-import traceback
 
 
 class Place(models.Model):
