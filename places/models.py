@@ -7,6 +7,7 @@ import traceback
 class Place(models.Model):
 
     title = models.CharField(max_length=200, verbose_name='Название')
+    tooltip_title = models.CharField(max_length=200, verbose_name='Сокращенное название', blank=True, null=True)
     short_description = models.TextField(verbose_name='Короткое описание')
     long_description = HTMLField(default='Впиши сюда вёрстку!', verbose_name='Длинное описание')
     latitude = models.FloatField(verbose_name='Широта')
@@ -14,6 +15,11 @@ class Place(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.tooltip_title:
+            self.tooltip_title = self.title.split('«')[-1][:-1]
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Место'

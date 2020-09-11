@@ -11,7 +11,7 @@ def show_page(request):
     features = []
     for place in places:
         coordinates = [place.longitude, place.latitude]
-        short_title = place.title.split('«')[-1][:-1]
+        short_title = place.tooltip_title
         place_id = place.pk
 
         feature = {
